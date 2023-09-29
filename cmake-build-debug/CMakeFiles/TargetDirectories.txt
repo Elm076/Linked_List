@@ -1,0 +1,3 @@
+C:/Users/fotop/Desktop/universidad/4_anio/1_cuatri/EEDD/pr1_CD/cmake-build-debug/CMakeFiles/pr1_CD.dir
+C:/Users/fotop/Desktop/universidad/4_anio/1_cuatri/EEDD/pr1_CD/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/fotop/Desktop/universidad/4_anio/1_cuatri/EEDD/pr1_CD/cmake-build-debug/CMakeFiles/rebuild_cache.dir
