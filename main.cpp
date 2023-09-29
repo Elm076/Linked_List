@@ -29,6 +29,7 @@ int main() {
     std::string strLongitude;
     std::string continent;
     std::string country_iso;
+    int counter = 0;
 
     std::cout << ".....Inicio del programa....." << std::endl;
 

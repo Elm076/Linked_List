@@ -43,11 +43,11 @@ class Dynamic_container
 };
 
  static unsigned int next_power2(unsigned int num) {
-	unsigned int result = 2;
-	while (result <= num) {
-		result = result * 2;
-	}
-	return result;
+     unsigned int result = 2;
+     while (result <= num) {
+         result = result * 2;
+     }
+     return result;
 }
 
 
@@ -151,18 +151,16 @@ unsigned int Dynamic_container<T>::used_tam() {
 
 template<class T>
 void Dynamic_container<T>::copy_elements() {
-	Dynamic_container aux_container(this->size);
+    unsigned int new_size = next_power2(this->size);
+    T* aux_pointer_list = new T[new_size];
 	for (unsigned int i = 0; i < this->used_size; i++) {
 		//aux_container.pointer_list[i] = this->pointer_list[i];
-		aux_container.add(*(this->pointer_list + i));
+		aux_pointer_list[i] = this->pointer_list[i];
 	}
-	delete[] this->pointer_list;
-	this->used_size = 0;
-	this->pointer_list = new T[this->size];
-	for (unsigned int i = 0; i < aux_container.used_size; i++) {
-		//this->pointer_list[i] = aux_container.pointer_list[i];
-		this->add(*(aux_container.pointer_list + i));
-	}
+
+	delete[] pointer_list;
+    this->size = new_size;
+	this->pointer_list = aux_pointer_list;
 }
 
 /**
@@ -171,9 +169,8 @@ void Dynamic_container<T>::copy_elements() {
  */
 template<class T>
 void Dynamic_container<T>::add(const T& data, unsigned int position) {
-	if (used_size >= (int)(size/3)*2) {
-		size = next_power2(size);
-		copy_elements();
+	if (used_size == size) {
+        copy_elements();
 	}
     if(position == UINT_MAX){
         //this->pointer_list[this->used_size] = data
@@ -181,12 +178,14 @@ void Dynamic_container<T>::add(const T& data, unsigned int position) {
         used_size += 1;
         last_index += 1;
     }
-
-    *(pointer_list + position) = data;
-    used_size += 1;
-    if(position > last_index){
-        last_index = position;
+    else{
+            for (unsigned i = used_size - 1; i >= position; i--) {
+                pointer_list[i+1] = pointer_list[i];
+            }
+        pointer_list[position] = data;
     }
+
+
 }
 
 /**
