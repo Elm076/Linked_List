@@ -29,7 +29,6 @@ int main() {
     std::string strLongitude;
     std::string continent;
     std::string country_iso;
-    int counter = 0;
 
     std::cout << ".....Inicio del programa....." << std::endl;
 
@@ -59,8 +58,7 @@ int main() {
                 line = "";
                 columns.clear();
                 UTM location = UTM(strLatitude,strLongitude);
-                airports.add(Airport(std::stoi(id), ident, type, name, location, continent, country_iso));
-
+                airports.push(Airport(std::stoi(id), ident, type, name, location, continent, country_iso));
             }   
         }
 
@@ -73,8 +71,11 @@ int main() {
     }
 
     std::cout << "The number of imgs stored in the container is: " << airports.used_tam() << " ." << std::endl;
-    std::cout << "The first 50 airports stored are:" << std::endl << std::endl;
-    for (unsigned int i = 0; i < 50; i++) {
+    airports.order_container();
+
+    std::cout << std::endl << "The following data are the airports stored ordered by ascendent ids:" << std::endl << std::endl;
+    std::cout << "The first 30 airports stored are:" << std::endl << std::endl;
+    for (unsigned int i = 0; i < 30; i++) {
         std::cout << "Airport number " << i << ":" << std::endl
                   << "Id: " << airports[i].getId() << std::endl
                   << "Ident: " << airports[i].getIdent() << std::endl
@@ -86,10 +87,12 @@ int main() {
                   << "Country: " << airports[i].getCountryIso() << std::endl
                   << std::endl;
     }
-
-    std::cout << std::endl << "The following data are the airports stored ordered by descendent ids:" << std::endl << std::endl;
 
     airports.reverse_order_container();
+
+    std::cout << std::endl << "The following data are the airports stored ordered by descendent ids:" << std::endl << std::endl;
+    std::cout << "The first 30 airports stored are:" << std::endl << std::endl;
+
     for (unsigned int i = 0; i < 20; i++) {
         std::cout << "Airport number " << i << ":" << std::endl
                   << "Id: " << airports[i].getId() << std::endl
@@ -102,30 +105,14 @@ int main() {
                   << "Country: " << airports[i].getCountryIso() << std::endl
                   << std::endl;
     }
-    
-    std::cout << std::endl << "The following data are the airports stored ordered by ascendent ids:" << std::endl << std::endl;
 
-    airports.order_container();
-    for (unsigned int i = 0; i < 20; i++) {
-        std::cout << "Airport number " << i << ":" << std::endl
-                << "Id: " << airports[i].getId() << std::endl
-                << "Ident: " << airports[i].getIdent() << std::endl
-                << "Type: " << airports[i].getType() << std::endl
-                << "Name: " << airports[i].getName() << std::endl
-                << "Latitude: " << airports[i].getLocation().getLatitude() << std::endl
-                << "Longitude: " << airports[i].getLocation().getLongitude() << std::endl
-                << "Continent: " << airports[i].getContinent() << std::endl
-                << "Country: " << airports[i].getCountryIso() << std::endl
-                << std::endl;
-    }
+    int ids_search[5] = {345166,
+                         6640,
+                         6676,
+                         345364,
+                         6778};
 
-    int ids_search[6] = {129027131,
-                            263765825,
-                            128371231, //this does not exists
-                            130844403,
-                            815967354,
-                            981231423 }; //this does not exists
-    std::cout << std::endl << "We are looking for some photos, we know their IDs." << std::endl
+    std::cout << std::endl << "We are looking for some airports, we know their IDs." << std::endl
         << "We are looking for airports with ID:" << std::endl << std::endl;
         for (unsigned int i = 0; i < 6; i++) {
             std::cout << ids_search[i] << std::endl;

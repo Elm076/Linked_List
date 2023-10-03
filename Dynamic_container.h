@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <iostream>
+#include <math.h>
 
 template<class T>
 class Dynamic_container
@@ -11,7 +12,7 @@ class Dynamic_container
 		unsigned int size = 0;
 		unsigned int used_size = 0;
         unsigned int last_index = 0;
-		void copy_elements();
+		void copy_elements(bool increment);
 	
 	public:
 		Dynamic_container();
@@ -24,11 +25,11 @@ class Dynamic_container
 
 		Dynamic_container& operator=(const Dynamic_container& origin);
 
-		void add(const T& data, unsigned int position = UINT_MAX);
-
-		void set(const T& data, unsigned int position);
+		void push(const T& data, unsigned int position = UINT_MAX);
 
 		T& get(unsigned int position);
+
+        T pop(unsigned int position = UINT_MAX);
 
         T& operator[](unsigned int i);
 
@@ -36,19 +37,25 @@ class Dynamic_container
 
 		void reverse_order_container();
 
+        int binary_search(T& data);
+
 		unsigned int used_tam();
 
 		~Dynamic_container();
 
 };
 
- static unsigned int next_power2(unsigned int num) {
+ static unsigned int next_power2(unsigned int num){
      unsigned int result = 2;
      while (result <= num) {
          result = result * 2;
      }
      return result;
 }
+
+static unsigned int previous_power2(unsigned int num){
+     return sqrt(num);
+ }
 
 
 /**
@@ -150,8 +157,14 @@ unsigned int Dynamic_container<T>::used_tam() {
 }
 
 template<class T>
-void Dynamic_container<T>::copy_elements() {
-    unsigned int new_size = next_power2(this->size);
+void Dynamic_container<T>::copy_elements(bool increment) {
+    unsigned int new_size;
+    if (increment){
+        new_size = next_power2(size);
+    }
+    else{
+         new_size = previous_power2(size);
+    }
     T* aux_pointer_list = new T[new_size];
 	for (unsigned int i = 0; i < this->used_size; i++) {
 		//aux_container.pointer_list[i] = this->pointer_list[i];
@@ -164,19 +177,18 @@ void Dynamic_container<T>::copy_elements() {
 }
 
 /**
- * @brief Method to add an object in the end of used positions of the container
+ * @brief Method to push an object in the end of used positions of the container
  * @param data T& object
  */
 template<class T>
-void Dynamic_container<T>::add(const T& data, unsigned int position) {
+void Dynamic_container<T>::push(const T& data, unsigned int position) {
 	if (used_size == size) {
-        copy_elements();
+        copy_elements(true);
 	}
-    if(position == UINT_MAX){
+    if(position == UINT_MAX or position == used_size){
         //this->pointer_list[this->used_size] = data
         *(pointer_list + last_index) = data;
-        used_size += 1;
-        last_index += 1;
+
     }
     else{
             for (unsigned i = used_size - 1; i >= position; i--) {
@@ -184,24 +196,10 @@ void Dynamic_container<T>::add(const T& data, unsigned int position) {
             }
         pointer_list[position] = data;
     }
+    used_size += 1;
+    last_index += 1;
 
 
-}
-
-/**
- * @brief Method to set an object to the container
- * @param data T& object
- * @param position index of the object inside the structure
- */
-template<class T>
-void Dynamic_container<T>::set(const T& data, unsigned int position) {
-	if (position > this->size) {
-		throw std::out_of_range("The given position exceed the max tam of the container");
-	}
-	else {
-		//this->pointer_list[position] = data;
-		*(this->pointer_list + position) = data;
-	}
 }
 
 /**
@@ -218,6 +216,26 @@ T& Dynamic_container<T>::get(unsigned int position) {
 		//return this->pointer_list[position];
 		return *(this->pointer_list + position);
 	}
+}
+
+template<class T>
+T Dynamic_container<T>::pop(unsigned int position){
+    T deleted_data = pointer_list[position];
+    if (position >= size){
+        throw std::out_of_range("The given position exceed the max tam of the container");
+    }
+    else if (position != UINT_MAX){
+        for (unsigned int i = position; i < size; i++){
+            pointer_list[i] = pointer_list[i++];
+        }
+    }
+    used_size -= 1;
+    if(used_size <= int((size/3)*2)){
+        copy_elements(false);
+    }
+    pointer_list[last_index] = nullptr;
+    last_index -= 1;
+    return deleted_data;
 }
 
 /**
@@ -254,6 +272,28 @@ void Dynamic_container<T>::reverse_order_container() {
 		});
 }
 
+/**
+ * @brief Method that search data in the data structure
+ */
+template<class T>
+int Dynamic_container<T>::binary_search(T& data) {
+    int left = 0;
+    int right = used_size - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (pointer_list[mid] == data) {
+            return mid; // Encontrado, devuelve el índice
+        } else if (pointer_list[mid] < data) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return -1; // No encontrado
+}
 
 /**
  * @brief Destructor of the class Dynamic_container

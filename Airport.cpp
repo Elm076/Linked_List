@@ -14,6 +14,16 @@ Airport::Airport() {
     country_iso = "";
 }
 
+Airport::Airport(int _id) {
+    this->id = _id;
+    ident = "";
+    type = "";
+    name = "";
+    location = UTM();
+    continent = "";
+    country_iso = "";
+}
+
 Airport::Airport(int _id, std::string _ident, std::string _type, std::string _name, UTM _location,
                  std::string _continent, std::string _country_iso) {
     id = _id;
@@ -85,16 +95,21 @@ bool Airport::operator<(const Airport &origin) {
     if (this->id < origin.id) {
         return true;
     }
-    else {
-        return false;
-    }
+    return false;
+
 }
 
 bool Airport::operator>(const Airport &origin) {
     if (this->id > origin.id) {
         return true;
     }
-    else {
-        return false;
+    return false;
+
+}
+
+bool Airport::operator==(const Airport &origin) {
+    if (this->id == origin.id){
+        return true;
     }
+    return false;
 }

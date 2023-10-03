@@ -20,6 +20,7 @@ private:
     std::string country_iso;
 public:
     Airport();
+    explicit Airport(int _id);
     Airport(int _id, std::string _ident, std::string _type, std::string _name, UTM _location, std::string _continent, std::string _country_iso);
 
     const int &getId() const;
@@ -45,6 +46,7 @@ public:
 
     bool operator<(const Airport& origin);
     bool operator>(const Airport& origin);
+    bool operator==(const Airport& origin);
 
 };
 
