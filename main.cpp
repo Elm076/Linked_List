@@ -18,7 +18,7 @@ int main() {
     Dynamic_container<Airport> airports;
 
     std::ifstream stream;
-    std::stringstream  columns;
+    std::stringstream columns;
     std::string line;
 
     std::string id;
@@ -30,7 +30,7 @@ int main() {
     std::string continent;
     std::string country_iso;
 
-    std::cout << ".....Inicio del programa....." << std::endl;
+    std::cout << ".....Start of the program....." << std::endl;
 
     stream.open("..\\aeropuertos.csv"); //project folder
     if (stream.good()) {
@@ -57,23 +57,23 @@ int main() {
 
                 line = "";
                 columns.clear();
-                UTM location = UTM(strLatitude,strLongitude);
+                UTM location = UTM(strLatitude, strLongitude);
                 airports.push(Airport(std::stoi(id), ident, type, name, location, continent, country_iso));
-            }   
+            }
         }
 
         stream.close();
 
-        std::cout << "Reading Time: " << ((clock() - t_ini) / (float)CLOCKS_PER_SEC) << " secs." << std::endl;
-    }
-    else {
+        std::cout << "Reading Time: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " secs." << std::endl;
+    } else {
         std::cout << "Fatal error opening the file" << std::endl;
     }
 
     std::cout << "The number of imgs stored in the container is: " << airports.used_tam() << " ." << std::endl;
-    airports.order_container();
+    airports.sort_container();
 
-    std::cout << std::endl << "The following data are the airports stored ordered by ascendent ids:" << std::endl << std::endl;
+    std::cout << std::endl << "The following data are the airports stored ordered by ascendent ids:" << std::endl
+              << std::endl;
     std::cout << "The first 30 airports stored are:" << std::endl << std::endl;
     for (unsigned int i = 0; i < 30; i++) {
         std::cout << "Airport number " << i << ":" << std::endl
@@ -88,9 +88,10 @@ int main() {
                   << std::endl;
     }
 
-    airports.reverse_order_container();
+    airports.reverse_sort_container();
 
-    std::cout << std::endl << "The following data are the airports stored ordered by descendent ids:" << std::endl << std::endl;
+    std::cout << std::endl << "The following data are the airports stored ordered by descendent ids:" << std::endl
+              << std::endl;
     std::cout << "The first 30 airports stored are:" << std::endl << std::endl;
 
     for (unsigned int i = 0; i < 20; i++) {
@@ -106,20 +107,32 @@ int main() {
                   << std::endl;
     }
 
-    int ids_search[5] = {345166,
-                         6640,
-                         6676,
-                         345364,
-                         6778};
+    const int SIZE_AIRPORT_TO_SEARCH = 5;
+    Airport *airportToSearch = new Airport[SIZE_AIRPORT_TO_SEARCH];
+    airportToSearch[0] = Airport(345166);
+    airportToSearch[1] = Airport(6640);
+    airportToSearch[2] = Airport(6676);
+    airportToSearch[3] = Airport(345364);
+    airportToSearch[4] = Airport(6778);
 
     std::cout << std::endl << "We are looking for some airports, we know their IDs." << std::endl
-        << "We are looking for airports with ID:" << std::endl << std::endl;
-        for (unsigned int i = 0; i < 6; i++) {
-            std::cout << ids_search[i] << std::endl;
-        }
+              << "We are looking for airports with ID:" << std::endl << std::endl;
+    for (unsigned int i = 0; i < SIZE_AIRPORT_TO_SEARCH; i++) {
+        std::cout << airportToSearch[i].getId() << std::endl;
+    }
 
     std::cout << std::endl << "The airports found by given ids are:" << std::endl << std::endl;
 
+    for(unsigned int i = 0; i < SIZE_AIRPORT_TO_SEARCH; i++){
+        int found = airports.binary_search(airportToSearch[i]);
+        if (found != -1){
+            std::cout << "----- Found! ----- \n Airport with id: " << airportToSearch[i].getId()
+                        << " located at position: " << found << " ." << std::endl;
+        }
+        std::cout << found << std::endl;
+    }
+
+    /*
     for (unsigned int i = 0; i < airports.used_tam(); i++) {
         for (unsigned int j = 0; j < 6; j++) {
             if (airports[i].getId() == ids_search[j]) {
@@ -137,7 +150,8 @@ int main() {
         }
     }
 }
-
+*/
+}
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
 // Depurar programa: F5 o menú Depurar > Iniciar depuración
 

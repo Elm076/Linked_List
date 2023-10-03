@@ -33,9 +33,9 @@ class Dynamic_container
 
         T& operator[](unsigned int i);
 
-		void order_container();
+		void sort_container();
 
-		void reverse_order_container();
+		void reverse_sort_container();
 
         int binary_search(T& data);
 
@@ -258,7 +258,7 @@ T& Dynamic_container<T>::operator[](unsigned int position) {
  * @brief Method to order the container from the minor to the greatest object
  */
 template<class T>
-void Dynamic_container<T>::order_container() {
+void Dynamic_container<T>::sort_container() {
 	std::sort(this->pointer_list, this->pointer_list + this->used_size);
 }
 
@@ -266,7 +266,7 @@ void Dynamic_container<T>::order_container() {
  * @brief Method to order the container from the greatest to the minor object
  */
 template<class T>
-void Dynamic_container<T>::reverse_order_container() {
+void Dynamic_container<T>::reverse_sort_container() {
 	std::sort(this->pointer_list, this->pointer_list + this->used_size, [](T& a, const T& b) {
 		return a > b;
 		});
@@ -277,21 +277,22 @@ void Dynamic_container<T>::reverse_order_container() {
  */
 template<class T>
 int Dynamic_container<T>::binary_search(T& data) {
+    sort_container();
     int left = 0;
-    int right = used_size - 1;
-
+    int right = used_size-1;
+    int middle;
     while (left <= right) {
-        int mid = left + (right - left) / 2;
-
-        if (pointer_list[mid] == data) {
-            return mid; // Encontrado, devuelve el índice
-        } else if (pointer_list[mid] < data) {
-            left = mid + 1;
-        } else {
-            right = mid - 1;
+        middle = (int)right/2;
+        if (data == pointer_list[middle]) {
+            return middle;
+        }
+        else if(data < pointer_list[right]){
+            left = middle+1;
+        }
+        else{
+            right = middle-1;
         }
     }
-
     return -1; // No encontrado
 }
 
