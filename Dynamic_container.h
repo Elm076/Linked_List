@@ -45,6 +45,11 @@ class Dynamic_container
 
 };
 
+/**
+ * @brief static method of the data structure which returns the following power of 2 from the given param
+ * @param num unsigned int number used to determine the next power of 2
+ * @return the next power of 2 found
+ */
  static unsigned int next_power2(unsigned int num){
      unsigned int result = 2;
      while (result <= num) {
@@ -53,8 +58,13 @@ class Dynamic_container
      return result;
 }
 
+/**
+ * @brief static method used to obtain the square root of the size of pointer_list
+ * @param num size of pointer_list
+ * @return square root of given param
+ */
 static unsigned int previous_power2(unsigned int num){
-     return sqrt(num);
+     return num/2;
  }
 
 
@@ -63,7 +73,6 @@ static unsigned int previous_power2(unsigned int num){
 * @brief	Default Constructor
 * @return	New object with 1 position available
 */
-
 template<class T>
 Dynamic_container<T>::Dynamic_container() {
 	size = 1;
@@ -77,7 +86,6 @@ Dynamic_container<T>::Dynamic_container() {
 * @param	log_size Length of the vector that contains pointer_list
 * @return	New object with length log_size
 */
-
 template<class T>
 Dynamic_container<T>::Dynamic_container(unsigned int _used_size) {
 	this->size = next_power2(_used_size);
@@ -91,8 +99,6 @@ Dynamic_container<T>::Dynamic_container(unsigned int _used_size) {
 * @param origin Object that will be copied
 * @return New object copied from origin
 */
-
-//PROBAR ESTO
 template<class T>
 Dynamic_container<T>::Dynamic_container(const Dynamic_container& origin) {
 	this->size = origin.size;
@@ -111,8 +117,6 @@ Dynamic_container<T>::Dynamic_container(const Dynamic_container& origin) {
 * @param	elements_copied Number of elements it will copy from origin
 * @return	Object copied given the correct params
 */
-
-//PROBAR ESTO
 template<class T>
 Dynamic_container<T>::Dynamic_container(const Dynamic_container& origin, unsigned int initial_position, unsigned int elements_copied) {
 	this->pointer_list = origin.pointer_list;
@@ -130,8 +134,6 @@ Dynamic_container<T>::Dynamic_container(const Dynamic_container& origin, unsigne
 * @param	origin Object origin that is gonna be copied
 * @return	The copied object
 */
-
-//PROBAR ESTO
 template<class T>
 Dynamic_container<T>& Dynamic_container<T>::operator=(const Dynamic_container& origin) {
 	if(this != &origin)
@@ -156,6 +158,11 @@ unsigned int Dynamic_container<T>::used_tam() {
 	return used_size;
 }
 
+/**
+ * @brief Private method that creates a new pointer_list with the new correct size and copy the old elements to the new pointer_list
+ * @param increment Bool value which will determine if the new pointer_list will grow or decrease
+ */
+
 template<class T>
 void Dynamic_container<T>::copy_elements(bool increment) {
     unsigned int new_size;
@@ -179,6 +186,7 @@ void Dynamic_container<T>::copy_elements(bool increment) {
 /**
  * @brief Method to push an object in the end of used positions of the container
  * @param data T& object
+ * @param position index where we will insert the given data inside the data structure
  */
 template<class T>
 void Dynamic_container<T>::push(const T& data, unsigned int position) {
@@ -218,6 +226,11 @@ T& Dynamic_container<T>::get(unsigned int position) {
 	}
 }
 
+/**
+ * @brief Method that remove the object indexed by given position
+ * @param position index of the element that will be removed
+ * @return A copy object of the data previously deleted
+ */
 template<class T>
 T Dynamic_container<T>::pop(unsigned int position){
     T deleted_data = pointer_list[position];
@@ -225,16 +238,15 @@ T Dynamic_container<T>::pop(unsigned int position){
         throw std::out_of_range("The given position exceed the max tam of the container");
     }
     else if (position != UINT_MAX){
-        for (unsigned int i = position; i < size; i++){
-            pointer_list[i] = pointer_list[i++];
+        for (unsigned int i = position; i < used_size; i++){
+            pointer_list[i] = pointer_list[i+1];
         }
     }
     used_size -= 1;
-    if(used_size <= int((size/3)*2)){
+    last_index -= 1;
+    if(used_size <= (int)(size/3)){
         copy_elements(false);
     }
-    pointer_list[last_index] = nullptr;
-    last_index -= 1;
     return deleted_data;
 }
 
@@ -274,26 +286,28 @@ void Dynamic_container<T>::reverse_sort_container() {
 
 /**
  * @brief Method that search data in the data structure
+ * @param data Object that will be searched in the data structure
+ * @return position where the data was found
  */
 template<class T>
 int Dynamic_container<T>::binary_search(T& data) {
     sort_container();
     int left = 0;
     int right = used_size-1;
-    int middle;
+
     while (left <= right) {
-        middle = (int)right/2;
-        if (data == pointer_list[middle]) {
-            return middle;
+        int mid = (int) left+(right-left)/2;
+        if (data == pointer_list[mid]) {
+            return mid;
         }
-        else if(data < pointer_list[right]){
-            left = middle+1;
+        else if(data < pointer_list[mid]){
+            right = mid-1;
         }
         else{
-            right = middle-1;
+            left = mid+1;
         }
     }
-    return -1; // No encontrado
+    return -1;
 }
 
 /**

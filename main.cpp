@@ -115,6 +115,7 @@ int main() {
     airportToSearch[3] = Airport(345364);
     airportToSearch[4] = Airport(6778);
 
+
     std::cout << std::endl << "We are looking for some airports, we know their IDs." << std::endl
               << "We are looking for airports with ID:" << std::endl << std::endl;
     for (unsigned int i = 0; i < SIZE_AIRPORT_TO_SEARCH; i++) {
@@ -132,25 +133,36 @@ int main() {
         std::cout << found << std::endl;
     }
 
-    /*
-    for (unsigned int i = 0; i < airports.used_tam(); i++) {
-        for (unsigned int j = 0; j < 6; j++) {
-            if (airports[i].getId() == ids_search[j]) {
-                std::cout << "Airport number " << i << ":" << std::endl
-                          << "Id: " << airports[i].getId() << std::endl
-                          << "Ident: " << airports[i].getIdent() << std::endl
-                          << "Type: " << airports[i].getType() << std::endl
-                          << "Name: " << airports[i].getName() << std::endl
-                          << "Latitude: " << airports[i].getLocation().getLatitude() << std::endl
-                          << "Longitude: " << airports[i].getLocation().getLongitude() << std::endl
-                          << "Continent: " << airports[i].getContinent() << std::endl
-                          << "Country: " << airports[i].getCountryIso() << std::endl
-                          << std::endl;
-            }
+    std::cout << "Deleting the airports which are located at 'NA'" << std::endl << std::endl;
+
+    Dynamic_container<Airport> deleted_data;
+    clock_t t_ini = clock();
+    for(unsigned int i = airports.used_tam(); i > 0; i --){
+        if(airports[i].getContinent() == "NA"){
+            //std::cout << "Deleted airport with id: " << airports.pop(i).getId() << " ." << std::endl;
+            deleted_data.push(airports.pop(i));
         }
+
     }
-}
-*/
+    std::cout << "Deleting Time: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " secs." << std::endl;
+
+    std::cout << "Number of airports now: " << airports.used_tam() << std::endl;
+    std::cout << "Number of airports now in the deleted_data Dynamic Container: " << deleted_data.used_tam() << std::endl;
+
+    for (unsigned int i = 0; i < 20; i++){
+        std::cout << "Airport deleted number " << i << ":" << std::endl
+                  << "Id: " << deleted_data[i].getId() << std::endl
+                  << "Ident: " << deleted_data[i].getIdent() << std::endl
+                  << "Type: " << deleted_data[i].getType() << std::endl
+                  << "Name: " << deleted_data[i].getName() << std::endl
+                  << "Latitude: " << deleted_data[i].getLocation().getLatitude() << std::endl
+                  << "Longitude: " << deleted_data[i].getLocation().getLongitude() << std::endl
+                  << "Continent: " << deleted_data[i].getContinent() << std::endl
+                  << "Country: " << deleted_data[i].getCountryIso() << std::endl
+                  << std::endl;
+    }
+
+    std::cout << "----- End of the program -----" << std::endl;
 }
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
 // Depurar programa: F5 o menú Depurar > Iniciar depuración
