@@ -1,13 +1,19 @@
-//
-// Created by fotop on 27/09/2023.
-//
+
 
 #ifndef PR1_CD_UTM_H
 #define PR1_CD_UTM_H
 
+/**
+ * @author Adrián González Pérez agp00118@red.ujaen.es
+ */
+
 #include "vector"
 #include <string>
 
+/**
+ * @brief Class to store global coordinates in objects (latitude and longitude)
+ * @class UTM class
+ */
 class UTM {
 private:
     std::string latitude;

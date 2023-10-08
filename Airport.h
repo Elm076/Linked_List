@@ -1,14 +1,20 @@
-//
-// Created by fotop on 27/09/2023.
-//
+
 
 #ifndef PR1_CD_AIRPORT_H
 #define PR1_CD_AIRPORT_H
+
+/**
+ * @author Adrián González Pérez agp00118@red.ujaen.es
+ */
 
 #include <string>
 #include <iostream>
 #include "UTM.h"
 
+/**
+ * @brief Airport class. It will store id, ident, type, name, location, continent and country iso associated to an airport
+ * @class Class to store airports
+ */
 class Airport {
 private:
     int id;

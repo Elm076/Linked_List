@@ -1,5 +1,4 @@
-// pr1_ADRI_verano_contenedores_dina.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
-//
+
 
 #include <iostream>
 #include <fstream>
@@ -11,8 +10,9 @@
 #include "Airport.h"
 
 /**
- * @author Adrián González Pérez
+ * @author Adrián González Pérez agp00118@red.ujaen.es
  */
+
 int main() {
 
     Dynamic_container<Airport> airports;
@@ -70,7 +70,15 @@ int main() {
     }
 
     std::cout << "The number of imgs stored in the container is: " << airports.used_tam() << " ." << std::endl;
+
+
+
+
+
+
+    clock_t time_stamp_1 = clock();
     airports.sort_container();
+    std::cout << "Sort data structure Time: " << ((clock() - time_stamp_1) / (float) CLOCKS_PER_SEC) << " secs." << std::endl;
 
     std::cout << std::endl << "The following data are the airports stored ordered by ascendent ids:" << std::endl
               << std::endl;
@@ -88,7 +96,14 @@ int main() {
                   << std::endl;
     }
 
+
+
+
+
+
+    clock_t time_stamp_2 = clock();
     airports.reverse_sort_container();
+    std::cout << "Reverse Sort data structure Time: " << ((clock() - time_stamp_2) / (float) CLOCKS_PER_SEC) << " secs." << std::endl;
 
     std::cout << std::endl << "The following data are the airports stored ordered by descendent ids:" << std::endl
               << std::endl;
@@ -107,6 +122,11 @@ int main() {
                   << std::endl;
     }
 
+
+
+
+
+
     const int SIZE_AIRPORT_TO_SEARCH = 5;
     Airport *airportToSearch = new Airport[SIZE_AIRPORT_TO_SEARCH];
     airportToSearch[0] = Airport(345166);
@@ -123,20 +143,27 @@ int main() {
     }
 
     std::cout << std::endl << "The airports found by given ids are:" << std::endl << std::endl;
-
+    clock_t time_stamp_3 = clock();
     for(unsigned int i = 0; i < SIZE_AIRPORT_TO_SEARCH; i++){
         int found = airports.binary_search(airportToSearch[i]);
         if (found != -1){
             std::cout << "----- Found! ----- \n Airport with id: " << airportToSearch[i].getId()
-                        << " located at position: " << found << " ." << std::endl;
+                        << " located at position: " << found << " ."<< std::endl
+                        << std::endl;
         }
-        std::cout << found << std::endl;
     }
+    std::cout << "Bynary Search inside data structure Time: " << ((clock() - time_stamp_3) / (float) CLOCKS_PER_SEC) << " secs." << std::endl
+            << std::endl;
+
+
+
+
+
 
     std::cout << "Deleting the airports which are located at 'NA'" << std::endl << std::endl;
 
     Dynamic_container<Airport> deleted_data;
-    clock_t t_ini = clock();
+    clock_t time_stamp_4 = clock();
     for(unsigned int i = airports.used_tam(); i > 0; i --){
         if(airports[i].getContinent() == "NA"){
             //std::cout << "Deleted airport with id: " << airports.pop(i).getId() << " ." << std::endl;
@@ -144,7 +171,7 @@ int main() {
         }
 
     }
-    std::cout << "Deleting Time: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " secs." << std::endl;
+    std::cout << "Deleting Time: " << ((clock() - time_stamp_4) / (float) CLOCKS_PER_SEC) << " secs." << std::endl;
 
     std::cout << "Number of airports now: " << airports.used_tam() << std::endl;
     std::cout << "Number of airports now in the deleted_data Dynamic Container: " << deleted_data.used_tam() << std::endl;

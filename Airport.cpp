@@ -1,9 +1,11 @@
-//
-// Created by fotop on 27/09/2023.
-//
+
 
 #include "Airport.h"
 
+/**
+ * @brief Default constructor; All empty
+ * @return Empty object of Airport
+ */
 Airport::Airport() {
     id = 0;
     ident = "";
@@ -14,6 +16,11 @@ Airport::Airport() {
     country_iso = "";
 }
 
+/**
+ * @brief Constructor that uses id to be built
+ * @param _id id to construct Airport.id
+ * @return Airport object with an specific id
+ */
 Airport::Airport(int _id) {
     this->id = _id;
     ident = "";
@@ -24,6 +31,17 @@ Airport::Airport(int _id) {
     country_iso = "";
 }
 
+/**
+ * @brief Constructor that initialize all the attributes specified in param values
+ * @param _id
+ * @param _ident
+ * @param _type
+ * @param _name
+ * @param _location
+ * @param _continent
+ * @param _country_iso
+ * @return Airport object created with all the param values
+ */
 Airport::Airport(int _id, std::string _ident, std::string _type, std::string _name, UTM _location,
                  std::string _continent, std::string _country_iso) {
     id = _id;
@@ -91,6 +109,11 @@ void Airport::setCountryIso(const std::string &countryIso) {
     country_iso = countryIso;
 }
 
+/**
+ * @brief < operator that compares two Airport objects by their ids
+ * @param origin Airport object
+ * @return TRUE if this->id is lower than origin.id value. FALSE if not
+ */
 bool Airport::operator<(const Airport &origin) {
     if (this->id < origin.id) {
         return true;
@@ -99,6 +122,11 @@ bool Airport::operator<(const Airport &origin) {
 
 }
 
+/**
+ * @brief < operator that compares two Airport objects by their ids
+ * @param origin Airport object
+ * @return TRUE if this->id is greater than origin.id value. FALSE if not
+ */
 bool Airport::operator>(const Airport &origin) {
     if (this->id > origin.id) {
         return true;
@@ -107,6 +135,11 @@ bool Airport::operator>(const Airport &origin) {
 
 }
 
+/**
+ * @brief < operator that compares two Airport objects by their ids
+ * @param origin Airport object
+ * @return True if this->id is equal that origin.id value. FALSE if not
+ */
 bool Airport::operator==(const Airport &origin) {
     if (this->id == origin.id){
         return true;

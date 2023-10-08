@@ -4,6 +4,11 @@
 #include <iostream>
 #include <math.h>
 
+/**
+ * @author Adrián González Pérez agp00118@red.ujaen.es
+ * @brief Data structure similar to STL vector
+ * @class Dynamic_container
+ */
 template<class T>
 class Dynamic_container
 {	
@@ -105,7 +110,6 @@ Dynamic_container<T>::Dynamic_container(const Dynamic_container& origin) {
 	this->used_size = origin.used_size;
 	this->pointer_list = origin.pointer_list;
 	for (unsigned int i = 0; i < this->size; i++) {
-		//this->pointer_list[i] = origin.pointer_list[i];
 		*(this->pointer_list + i) = *(origin.pointer_list + i);
 	}
 }
@@ -123,7 +127,6 @@ Dynamic_container<T>::Dynamic_container(const Dynamic_container& origin, unsigne
 	this->size = next_power2(elements_copied);
 	this->used_size = elements_copied;
 	for (unsigned int i = 0; i < this->size; i++) {
-		//this->pointer_list[i] = origin.pointer_list[i] + initial_position;
 		*(this->pointer_list + i) = *(origin.pointer_list + initial_position + i);
 	}
 }
@@ -142,7 +145,6 @@ Dynamic_container<T>& Dynamic_container<T>::operator=(const Dynamic_container& o
 	    	this->used_size = origin.used_size;
 	    	this->pointer_list = origin.pointer_list;
 	    	for (unsigned int i = 0; i < this->size; i++) {
-	    		//this->pointer_list[i] = origin.pointer_list[i];
 	    		*(this->pointer_list + i) = *(origin.pointer_list + i);
 	    	}
 	    	return *this;
@@ -162,7 +164,6 @@ unsigned int Dynamic_container<T>::used_tam() {
  * @brief Private method that creates a new pointer_list with the new correct size and copy the old elements to the new pointer_list
  * @param increment Bool value which will determine if the new pointer_list will grow or decrease
  */
-
 template<class T>
 void Dynamic_container<T>::copy_elements(bool increment) {
     unsigned int new_size;
@@ -194,7 +195,6 @@ void Dynamic_container<T>::push(const T& data, unsigned int position) {
         copy_elements(true);
 	}
     if(position == UINT_MAX or position == used_size){
-        //this->pointer_list[this->used_size] = data
         *(pointer_list + last_index) = data;
 
     }
@@ -221,7 +221,6 @@ T& Dynamic_container<T>::get(unsigned int position) {
 		throw std::out_of_range("The given position exceed the max tam of the container");
 	}
 	else {
-		//return this->pointer_list[position];
 		return *(this->pointer_list + position);
 	}
 }
@@ -261,7 +260,6 @@ T& Dynamic_container<T>::operator[](unsigned int position) {
         throw std::out_of_range("The given position exceed the max tam of the container");
     }
     else {
-        //return this->pointer_list[position];
         return *(this->pointer_list + position);
     }
 }
@@ -311,7 +309,7 @@ int Dynamic_container<T>::binary_search(T& data) {
 }
 
 /**
- * @brief Destructor of the class Dynamic_container
+ * @brief Destructor of the class Dynamic_container. It delete pointer_list from dynamic memory management
  */
 template<class T>
 Dynamic_container<T>::~Dynamic_container() {
