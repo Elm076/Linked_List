@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/fotop/Desktop/universidad/4_anio/1_cuatri/EEDD/pr1_CD
+# Install script for directory: C:/Users/fotop/Desktop/universidad/4_anio/1_cuatri/EEDD/Linked_list/bin
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/fotop/Desktop/universidad/4_anio/1_cuatri/EEDD/pr1_CD/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/fotop/Desktop/universidad/4_anio/1_cuatri/EEDD/Linked_list/bin/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

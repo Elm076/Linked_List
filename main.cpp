@@ -32,7 +32,7 @@ int main() {
 
     std::cout << ".....Start of the program....." << std::endl;
 
-    stream.open("..\\aeropuertos.csv"); //project folder
+    stream.open("..\\aeropuertos_v2.csv"); //project folder
     if (stream.good()) {
 
         clock_t t_ini = clock();
