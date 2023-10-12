@@ -5,34 +5,18 @@
 #ifndef PR1_CD_LINKED_LIST_H
 #define PR1_CD_LINKED_LIST_H
 
+#include "Node.h"
+
 template <class T>
 class Linked_list {
 
 
 /*  #################### PRIVATE CLASS OF LINKED LIST ####################
  *  ####################          CLASS NODE          ####################*/
-
-
-            class Node{
-            public:
-                T data;
-                Node *next;
-
-                Node() { next = nullptr; }
-
-                explicit Node(T& _data, Node* _next = nullptr) :
-                                data(_data),
-                                next(_next)
-                                {}
-            };
-
 /*  ################ END OF PRIVATE CLASS OF LINKED LIST #################
  *  ####################          CLASS NODE          ####################*/
 
-class Iterator{
-private:
-    Node<T>* node;
-};
+
 
 private:
     Node header;

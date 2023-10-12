@@ -13,4 +13,8 @@ add_executable(pr1_CD
         UTM.cpp
         UTM.h
         Linked_list.cpp
-        Linked_list.h)
+        Linked_list.h
+        Iterator.cpp
+        Iterator.h
+        Node.cpp
+        Node.h)
