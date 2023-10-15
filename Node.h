@@ -5,14 +5,23 @@
 #ifndef PR1_CD_NODE_H
 #define PR1_CD_NODE_H
 
+//DECLARATION FORWARD OF THE NEEDED CLASSES
+
+template <class T> class Linked_list;
+template <class T> class Iterator;
+
+
+/*  #################### PRIVATE CLASS OF LINKED LIST ####################
+ *  ####################          CLASS NODE          ####################*/
+
 template <class T>
 class Node {
 private:
-    //friend class Iterator;
-    //friend class Linked_list;
+    friend class Linked_list<T>;
+    friend class Iterator<T>;
     T data;
-
     Node *next;
+
 
     Node() { next = nullptr; }
 
@@ -20,9 +29,12 @@ private:
         data(_data),
         next(_next)
         {}
-    };
 
 };
+
+/*  ################ END OF PRIVATE CLASS OF LINKED LIST #################
+ *  ####################          CLASS NODE          ####################*/
+
 
 
 #endif //PR1_CD_NODE_H
