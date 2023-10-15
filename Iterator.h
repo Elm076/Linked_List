@@ -5,20 +5,25 @@
 #ifndef PR1_CD_ITERATOR_H
 #define PR1_CD_ITERATOR_H
 
-//FORWARD DECLARATIONS OF THESE CLASS
-class Linked_list;
-class Node;
+#include "Node.h"
 
+template <class T> class Node;
+
+template <class T>
 class Iterator {
  private:
-    Node* node;
-    friend class Linked_list;
+    Node<T>* node;
+    friend class Linked_list<T>;
 public:
-    Iterator(Node* _node) : node(_node) {}
+    Iterator(Node<T>* _node) : node(_node) {}
+
     bool end() { return  node == nullptr; }
-    void next(){
-        node = node->next;
-    }
+
+    void next() { node = node->next; }
+
+    T& data () { return node->data; }
+
+    T& operator*() { return node->data; }
 };
 
 
