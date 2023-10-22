@@ -6,6 +6,7 @@
 #define PR1_CD_LINKED_LIST_H
 
 #include "Node.h"
+#include <stdexcept>
 
 template <class T>
 class Linked_list {
@@ -53,6 +54,8 @@ public:
 
 template <class T>
 Linked_list<T>::Linked_list() {
+    header = nullptr;
+    tail = nullptr;
     size = 0;
 }
 
@@ -153,8 +156,7 @@ void Linked_list<T>::push_in_forward(Iterator<T>& i, T &_data) {
     if (header == i.node){
         header = new_node;
     }
-
-    if (header != tail){
+    else if (header != tail){
         Node<T>* previous_node = nullptr;
         previous_node = header;
         while(previous_node->next != i.node){
@@ -182,7 +184,7 @@ void Linked_list<T>::pop_front() {
         tail = nullptr;
     }
     else{
-        Node<T> deleted_node = header;
+        Node<T>* deleted_node = header;
         header = header->next;
         delete deleted_node;
     }
@@ -213,8 +215,17 @@ void Linked_list<T>::pop(Iterator<T> &i) {
     while (target->next != i.node){
         target = target->next;
     }
-    target->next = i.node->next;
-    delete i.node;
+
+    if(i.node->next == nullptr){
+       pop_back();
+       //delete i.node;
+       i.node == nullptr;
+    }
+    else{
+        i.node = i.node->next;
+        delete target->next;
+        target->next = i.node;
+    }
 
     size--;
 }
@@ -244,8 +255,8 @@ Linked_list<T> Linked_list<T>::concatenate(const Linked_list<T> &other) {
 
 template <class T>
 Linked_list<T>::~Linked_list() {
-    Node<T> to_delete = header;
-    while(header != tail or size != 0){
+    Node<T>* to_delete = header;
+    while(header != tail or size == 0){
         header = header->next;
         delete to_delete;
         to_delete = header;

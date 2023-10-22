@@ -8,6 +8,8 @@
 #include "Dynamic_container.h"
 #include "UTM.h"
 #include "Airport.h"
+#include "Linked_list.h"
+#include "Iterator.h"
 
 /**
  * @author Adrián González Pérez agp00118@red.ujaen.es
@@ -15,6 +17,88 @@
 
 int main() {
 
+    Linked_list<int> intList;
+
+    for(int i = 101; i < 201; i++){
+        intList.push_back(i);
+    }
+
+    Iterator<int> iterator = intList.iterator();
+    for (int i = 0; i < intList.list_size(); i++) {
+        std::cout << "The element " << i << " in the list is " << iterator.data() << " ." << std::endl;
+        iterator.next();
+    }
+
+    iterator = intList.iterator();
+    for(int i = 98; i > 0; i--){
+        intList.push_in_forward(iterator, i);
+    }
+
+    iterator = intList.iterator();
+    for (int i = 0; i < intList.list_size(); i++) {
+        std::cout << "The element " << i << " in the list is " << iterator.data() << " ." << std::endl;
+        iterator.next();
+    }
+
+    iterator = intList.iterator();
+    while (!iterator.end()){
+        if (iterator.data() == 101){
+            int data_to_insert = 100;
+            intList.push_in_forward(iterator, data_to_insert);
+            //break;
+        }
+        iterator.next();
+    }
+    
+    iterator = intList.iterator();
+    while (!iterator.end()){
+        if(iterator.data() == 98){
+            int data_to_insert = 99;
+            intList.push_in_behind(iterator,data_to_insert);
+            //break;
+        }
+        iterator.next();
+    }
+
+    iterator = intList.iterator();
+    std::cout << "-----ELEMENTS OF THE LIST-----" << std::endl << std::endl;
+    while (!iterator.end()){
+        std::cout << "Node with data: " << iterator.data() << std::endl;
+        iterator.next();
+    }
+
+    for (int i = 0; i < 10; i++){
+        intList.pop_front();
+        intList.pop_back();
+    }
+
+    iterator = intList.iterator();
+    std::cout << "-----ELEMENTS OF THE LIST-----" << std::endl << std::endl;
+    while (!iterator.end()){
+        std::cout << "Node with data: " << iterator.data() << std::endl;
+        iterator.next();
+    }
+
+    iterator = intList.iterator();
+    while (!iterator.end()){
+        if (iterator.data()%10 == 0){
+            intList.pop(iterator);
+        }
+        else{
+            iterator.next();
+        }
+    }
+
+    iterator = intList.iterator();
+    std::cout << "-----ELEMENTS OF THE LIST-----" << std::endl << std::endl;
+    while (!iterator.end()){
+        std::cout << "Node with data: " << iterator.data() << std::endl;
+        iterator.next();
+    }
+
+
+
+/*
     Dynamic_container<Airport> airports;
 
     std::ifstream stream;
@@ -69,8 +153,12 @@ int main() {
         std::cout << "Fatal error opening the file" << std::endl;
     }
 
-    std::cout << "The number of imgs stored in the container is: " << airports.used_tam() << " ." << std::endl;
+    std::cout << "The number of airports stored in the container is: " << airports.used_tam() << " ." << std::endl;
 
+*/
+
+}
+/*
 
 
 
@@ -191,7 +279,8 @@ int main() {
 
     std::cout << "----- End of the program -----" << std::endl;
 }
-// Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
+*/
+ // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
 // Depurar programa: F5 o menú Depurar > Iniciar depuración
 
 // Sugerencias para primeros pasos: 1. Use la ventana del Explorador de soluciones para agregar y administrar archivos
