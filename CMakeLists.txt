@@ -17,4 +17,8 @@ add_executable(pr1_CD
         Iterator.cpp
         Iterator.h
         Node.cpp
-        Node.h)
+        Node.h
+        Route.cpp
+        Route.h
+        VuelaFlight.cpp
+        VuelaFlight.h)

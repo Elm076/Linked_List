@@ -23,13 +23,13 @@ private:
     Node *next;
 
 
-    Node() { next = nullptr; }
+    Node() {    T();
+                next = nullptr; }
 
     explicit Node(T& _data, Node* _next = nullptr) :
         data(_data),
         next(_next)
         {}
-
 };
 
 /*  ################ END OF PRIVATE CLASS OF LINKED LIST #################

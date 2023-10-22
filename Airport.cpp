@@ -8,7 +8,7 @@
  */
 Airport::Airport() {
     id = 0;
-    ident = "";
+    iata = "";
     type = "";
     name = "";
     location = UTM();
@@ -23,7 +23,7 @@ Airport::Airport() {
  */
 Airport::Airport(int _id) {
     this->id = _id;
-    ident = "";
+    iata = "";
     type = "";
     name = "";
     location = UTM();
@@ -34,7 +34,7 @@ Airport::Airport(int _id) {
 /**
  * @brief Constructor that initialize all the attributes specified in param values
  * @param _id
- * @param _ident
+ * @param _iata
  * @param _type
  * @param _name
  * @param _location
@@ -42,10 +42,10 @@ Airport::Airport(int _id) {
  * @param _country_iso
  * @return Airport object created with all the param values
  */
-Airport::Airport(int _id, std::string _ident, std::string _type, std::string _name, UTM _location,
+Airport::Airport(int _id, std::string _iata, std::string _type, std::string _name, UTM _location,
                  std::string _continent, std::string _country_iso) {
     id = _id;
-    ident = _ident;
+    iata = _iata;
     type = _type;
     name = _name;
     location = _location;
@@ -61,12 +61,12 @@ void Airport::setId(const int &id) {
     Airport::id = id;
 }
 
-const std::string &Airport::getIdent() const {
-    return ident;
+const std::string &Airport::getIata() const {
+    return iata;
 }
 
-void Airport::setIdent(const std::string &ident) {
-    Airport::ident = ident;
+void Airport::setIata(const std::string &_iata) {
+    Airport::iata = _iata;
 }
 
 const std::string &Airport::getType() const {
@@ -115,7 +115,7 @@ void Airport::setCountryIso(const std::string &countryIso) {
  * @return TRUE if this->id is lower than origin.id value. FALSE if not
  */
 bool Airport::operator<(const Airport &origin) {
-    if (this->id < origin.id) {
+    if (this->iata < origin.iata) {
         return true;
     }
     return false;
@@ -128,7 +128,7 @@ bool Airport::operator<(const Airport &origin) {
  * @return TRUE if this->id is greater than origin.id value. FALSE if not
  */
 bool Airport::operator>(const Airport &origin) {
-    if (this->id > origin.id) {
+    if (this->iata > origin.iata) {
         return true;
     }
     return false;
@@ -141,7 +141,7 @@ bool Airport::operator>(const Airport &origin) {
  * @return True if this->id is equal that origin.id value. FALSE if not
  */
 bool Airport::operator==(const Airport &origin) {
-    if (this->id == origin.id){
+    if (this->iata == origin.iata){
         return true;
     }
     return false;

@@ -21,9 +21,13 @@ public:
 
     void next() { node = node->next; }
 
+    void set(T& _data) { node->data = _data; }
+
     T& data () { return node->data; }
 
     T& operator*() { return node->data; }
+
+    ~Iterator() { node = nullptr; }
 };
 
 

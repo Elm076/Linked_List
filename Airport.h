@@ -12,13 +12,13 @@
 #include "UTM.h"
 
 /**
- * @brief Airport class. It will store id, ident, type, name, location, continent and country iso associated to an airport
+ * @brief Airport class. It will store id, iata, type, name, location, continent and country iso associated to an airport
  * @class Class to store airports
  */
 class Airport {
 private:
     int id;
-    std::string ident;
+    std::string iata;
     std::string type;
     std::string name;
     UTM location;
@@ -27,13 +27,13 @@ private:
 public:
     Airport();
     explicit Airport(int _id);
-    Airport(int _id, std::string _ident, std::string _type, std::string _name, UTM _location, std::string _continent, std::string _country_iso);
+    Airport(int _id, std::string _iata, std::string _type, std::string _name, UTM _location, std::string _continent, std::string _country_iso);
 
     const int &getId() const;
     void setId(const int &id);
 
-    const std::string &getIdent() const;
-    void setIdent(const std::string &ident);
+    const std::string &getIata() const;
+    void setIata(const std::string &_iata);
 
     const std::string &getType() const;
     void setType(const std::string &type);

@@ -6,6 +6,7 @@
 #define PR1_CD_LINKED_LIST_H
 
 #include "Node.h"
+#include <stdexcept>
 
 template <class T>
 class Linked_list {
@@ -53,22 +54,22 @@ public:
 
 template <class T>
 Linked_list<T>::Linked_list() {
+    header = nullptr;
+    tail = nullptr;
     size = 0;
 }
 
 template <class T>
 Linked_list<T>::Linked_list(const Linked_list<T> &other) {
     this->header = new Node<T>(other.header->data);
+    this->tail = this->header;
 
     Node<T>* iterator_other = other.header->next;
-    Node<T>* iterator_this = this->header;
     while(iterator_other != nullptr){
-        Node<T>* next_this = new Node<T>(other.header->data);
-        iterator_this->next = next_this;
+        this->tail->next = new Node<T>(iterator_other->data);
         iterator_other = iterator_other->next;
-        iterator_this = iterator_this->next;
+        this->tail = this->tail->next;
     }
-    this->tail = iterator_this;
     this->size = other.size;
 
 
@@ -77,6 +78,16 @@ Linked_list<T>::Linked_list(const Linked_list<T> &other) {
 
 template <class T>
 Linked_list<T>& Linked_list<T>::operator=(const Linked_list<T> &other) {
+
+    Node<T>* to_delete = header;
+    while(header != tail and size != 0){
+        header = header->next;
+        delete to_delete;
+        to_delete = header;
+        size--;
+    }
+
+    /*
     Node<T>* delete_iterator = this->header->next;
 
     while (delete_iterator != nullptr){
@@ -86,10 +97,11 @@ Linked_list<T>& Linked_list<T>::operator=(const Linked_list<T> &other) {
         delete_iterator = delete_iterator->next;
     }
     delete header;
-
+    */
 
     this->header = new Node<T>(other.header->data);
 
+    /*
     Node<T>* iterator_other = other.header->next;
     Node<T>* iterator_this = this->header;
     while(iterator_other != nullptr){
@@ -100,7 +112,20 @@ Linked_list<T>& Linked_list<T>::operator=(const Linked_list<T> &other) {
     }
     this->tail = iterator_this;
     this->size = other.size;
+     */
 
+    this->header = new Node<T>(other.header->data);
+    this->tail = this->header;
+
+    Node<T>* iterator_other = other.header->next;
+    while(iterator_other != nullptr){
+        this->tail->next = new Node<T>(iterator_other->data);
+        iterator_other = iterator_other->next;
+        this->tail = this->tail->next;
+    }
+    this->size = other.size;
+
+    return *this;
 }
 
 template <class T>
@@ -127,6 +152,7 @@ void Linked_list<T>::push_front(T &_data) {
     else{
         Node<T>* new_header;
         new_header = new Node<T>(_data,header);
+        header = new_header;
     }
     size++;
 
@@ -149,29 +175,33 @@ void Linked_list<T>::push_back(T &_data) {
 
 template <class T>
 void Linked_list<T>::push_in_forward(Iterator<T>& i, T &_data) {
-    Node<T>* new_node = new Node<T>(_data, i.node);
     if (header == i.node){
-        header = new_node;
+        push_front(_data);
     }
-
-    if (header != tail){
-        Node<T>* previous_node = nullptr;
-        previous_node = header;
-        while(previous_node->next != i.node){
+    else if (header != tail){
+        Node<T>* previous_node = header;
+        unsigned int count = 0;
+        while(count < size and previous_node->next != i.node){
             previous_node = previous_node->next;
+            count ++;
         }
-        previous_node->next = new_node;
+        if (count != size){
+            previous_node->next = new Node<T>(_data, i.node);
+        }
+        else{
+            throw std::out_of_range("---FATAL ERROR--- Exception ocurred on: Linked_list<T>::push_in_forward(Iterator<T>& i, T &_data). The specified iterator does not contain data stored in this Linked List ---NOT FOUND--- ");
+        }
     }
     size++;
 }
 
 template <class T>
 void Linked_list<T>::push_in_behind(Iterator<T> &i, T &_data) {
+    /*maybe here I should check if the iterator belongs to this list but do it will mean this operation would be now O(n) instead O(1)
+    I opted for the 0(1) version assuming the iterator belong to this*/
     Node<T>* new_node = new Node<T>(_data, i.node->next);
     i.node->next = new_node;
-    if (tail == new_node){
-        tail = new_node;
-    }
+
     size++;
 }
 
@@ -182,7 +212,7 @@ void Linked_list<T>::pop_front() {
         tail = nullptr;
     }
     else{
-        Node<T> deleted_node = header;
+        Node<T>* deleted_node = header;
         header = header->next;
         delete deleted_node;
     }
@@ -213,8 +243,20 @@ void Linked_list<T>::pop(Iterator<T> &i) {
     while (target->next != i.node){
         target = target->next;
     }
-    target->next = i.node->next;
-    delete i.node;
+
+    if(i.node->next == nullptr){
+       pop_back();
+       //delete i.node;
+       i.node = nullptr;
+    }
+    else if (i.node == header){
+        pop_front();
+    }
+    else{
+        i.node = i.node->next;
+        delete target->next;
+        target->next = i.node;
+    }
 
     size--;
 }
@@ -244,8 +286,8 @@ Linked_list<T> Linked_list<T>::concatenate(const Linked_list<T> &other) {
 
 template <class T>
 Linked_list<T>::~Linked_list() {
-    Node<T> to_delete = header;
-    while(header != tail or size != 0){
+    Node<T>* to_delete = header;
+    while(header != tail and size != 0){
         header = header->next;
         delete to_delete;
         to_delete = header;
