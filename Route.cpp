@@ -34,4 +34,10 @@ Route::Route(std::string& _airline, Airport* _origin, Airport* _destination) :
     destination(_destination)
     {}
 
-    Route::~Route() = default;
+Route::Route(Route &other) {
+    this->airline = other.airline;
+    this->origin = other.origin;
+    this->destination = other.destination;
+}
+
+Route::~Route() = default;

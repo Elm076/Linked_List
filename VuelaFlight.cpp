@@ -23,7 +23,7 @@ VuelaFlight::VuelaFlight(std::string airports_file, std::string routes_file) {
     airports_stream.open(airports_file); //project folder
     if (airports_stream.good()) {
         std::string id;
-        std::string ident;
+        std::string iata;
         std::string type;
         std::string name;
         std::string strLatitude;
@@ -45,7 +45,7 @@ VuelaFlight::VuelaFlight(std::string airports_file, std::string routes_file) {
                 //Line format: id;iata;type;size;fecha;country_iso
 
                 getline(columns_airports, id, ';'); //we read the line till ';' and omit the caracter
-                getline(columns_airports, ident, ';');
+                getline(columns_airports, iata, ';');
                 getline(columns_airports, type, ';');
                 getline(columns_airports, name, ';');
                 getline(columns_airports, strLatitude, ';');
@@ -56,7 +56,7 @@ VuelaFlight::VuelaFlight(std::string airports_file, std::string routes_file) {
                 line = "";
                 columns_airports.clear();
                 UTM location = UTM(strLatitude, strLongitude);
-                airports.push(Airport(std::stoi(id), ident, type, name, location, continent, country_iso));
+                airports.push(Airport(std::stoi(id), iata, type, name, location, continent, country_iso));
             }
         }
 
@@ -117,7 +117,7 @@ VuelaFlight::VuelaFlight(std::string airports_file, std::string routes_file) {
 
 }
 
-Route& VuelaFlight::origDestRoutesSearch(std::string airportIataOrig, std::string airportIataDest) {
+Route& VuelaFlight::origDestRoutesSearch(const std::string& airportIataOrig, const std::string& airportIataDest) {
     Iterator<Route> iterator = routes.iterator();
     unsigned int count = 0;
 
@@ -156,7 +156,7 @@ Dynamic_container<Airport> VuelaFlight::countryAirportSearch(std::string country
     unsigned int found_count = 0;
     Dynamic_container<Airport> found_airports;
     while(count < routes.list_size() and !iterator.end()){
-        if (iterator.data().getOrigin()->getCountryIso() == country){
+        if (iterator.data().getOrigin()->getCountryIso() == country or iterator.data().getDestination()->getCountryIso() == country){
             Airport* airport_to_push = iterator.data().getOrigin();
             found_airports.push(*airport_to_push);
             found_count++;
@@ -184,6 +184,14 @@ void VuelaFlight::addNewRoute(std::string origAirportIata, std::string destAirpo
     Route new_route(airline,orig,dest);
     routes.push_back(new_route);
 
+}
+
+const Dynamic_container<Airport> &VuelaFlight::getAirports() const {
+    return airports;
+}
+
+const Linked_list<Route> &VuelaFlight::getRoutes() const {
+    return routes;
 }
 
 

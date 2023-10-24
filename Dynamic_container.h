@@ -109,9 +109,9 @@ Dynamic_container<T>::Dynamic_container(unsigned int _used_size) {
 */
 template<class T>
 Dynamic_container<T>::Dynamic_container(const Dynamic_container& origin) {
-	this->size = origin.size;
+    this->size = next_power2(origin.used_size);
+    this->pointer_list = new T[this->size];
 	this->used_size = origin.used_size;
-	this->pointer_list = origin.pointer_list;
 	for (unsigned int i = 0; i < this->size; i++) {
 		*(this->pointer_list + i) = *(origin.pointer_list + i);
 	}
@@ -126,8 +126,8 @@ Dynamic_container<T>::Dynamic_container(const Dynamic_container& origin) {
 */
 template<class T>
 Dynamic_container<T>::Dynamic_container(const Dynamic_container& origin, unsigned int initial_position, unsigned int elements_copied) {
-	this->pointer_list = origin.pointer_list;
-	this->size = next_power2(elements_copied);
+    this->size = next_power2(elements_copied);
+	this->pointer_list = new T[size];
 	this->used_size = elements_copied;
 	for (unsigned int i = 0; i < this->size; i++) {
 		*(this->pointer_list + i) = *(origin.pointer_list + initial_position + i);
@@ -220,7 +220,7 @@ void Dynamic_container<T>::push(const T& data, unsigned int position) {
  */
 template<class T>
 T& Dynamic_container<T>::get(unsigned int position) {
-	if (position >= this->size) {
+	if (position >= this->size and position != UINT_MAX) {
 		throw std::out_of_range("The given position exceed the max tam of the container");
 	}
 	else {
@@ -236,7 +236,7 @@ T& Dynamic_container<T>::get(unsigned int position) {
 template<class T>
 T Dynamic_container<T>::pop(unsigned int position){
     T deleted_data = pointer_list[position];
-    if (position >= size){
+    if (position >= size and position != UINT_MAX ){
         throw std::out_of_range("The given position exceed the max tam of the container");
     }
     else if (position != UINT_MAX){
@@ -259,7 +259,7 @@ T Dynamic_container<T>::pop(unsigned int position){
  */
 template<class T>
 T& Dynamic_container<T>::operator[](unsigned int position) {
-    if (position >= this->size) {
+    if (position >= this->size and position != UINT_MAX ) {
         throw std::out_of_range("The given position exceed the max tam of the container");
     }
     else {

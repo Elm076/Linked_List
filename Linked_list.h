@@ -28,7 +28,7 @@ public:
 
     T& get_tail();
 
-    unsigned int list_size();
+    unsigned int list_size() const;
 
     Iterator<T> iterator();
 
@@ -263,7 +263,7 @@ void Linked_list<T>::pop(Iterator<T> &i) {
 
 
 template <class T>
-unsigned int Linked_list<T>::list_size() {
+unsigned int Linked_list<T>::list_size() const {
     return size;
 }
 

@@ -164,22 +164,34 @@ int main() {
     }
 
     try {
+        std::cout << "Number of routes stored: " << data_base.getRoutes().list_size() << std::endl;
         data_base.addNewRoute("GRX", "CDG", "IBE");
         data_base.addNewRoute("CDG", "GRX", "IBE");
+        std::cout << "Number of routes stored: " << data_base.getRoutes().list_size() << std::endl;
     } catch (std::invalid_argument err) {
         std::cout << err.what() << std::endl;
     }
 
-    try {
+/*
+ * Tried to make the optional exercise work. I couldn't make it so I commented it
+ *
         Dynamic_container<Route> routes_ESP_PRT;
         clock_t t_ini = clock();
-        Dynamic_container<Airport> airports_ESP = data_base.countryAirportSearch("ESP");
+        Dynamic_container<Airport> airports_ESP(data_base.countryAirportSearch("ES"));
+
         for (unsigned int i = 0; i < airports_ESP.used_tam(); i++) {
-            Dynamic_container<Route> routes_for_actual_airport = data_base.origRoutesSearch(airports_ESP[i].getIata());
-            for (unsigned int j = 0; j < routes_for_actual_airport.used_tam(); j++) {
-                if (routes_for_actual_airport[i].getDestination()->getCountryIso() == "PRT") {
-                    routes_ESP_PRT.push(routes_for_actual_airport[i]);
+            try {
+                Dynamic_container<Route> routes_for_actual_airport(
+                        data_base.origRoutesSearch(airports_ESP[i].getIata()));
+
+                for (unsigned int j = 0; j < routes_for_actual_airport.used_tam(); j++) {
+                    if (routes_for_actual_airport[i].getDestination()->getCountryIso() == "PRT") {
+                        routes_ESP_PRT.push(routes_for_actual_airport[i]);
+                    }
                 }
+            }
+            catch (std::out_of_range err){
+                err.what();
             }
         }
         std::cout << " All airports ESP to PRT found ." << std::endl << " Searching Time: "
@@ -188,10 +200,8 @@ int main() {
             std::cout << "Found route with origin in ESP and destination in PRT with destiny airport "
                       << routes_ESP_PRT[i].getDestination()->getIata() << std::endl;
         }
-    } catch (std::invalid_argument err) {
-        std::cout << err.what() << std::endl;
-    }
 
+*/
 
     std::cout << "----- End of the program -----" << std::endl;
 }

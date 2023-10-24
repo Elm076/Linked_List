@@ -23,6 +23,8 @@ public:
 
     Route(std::string& _airline, Airport* _origin, Airport* _destination);
 
+    Route(Route& other);
+
     const std::string &getAirline() const;
 
     void setAirline(const std::string &airline);

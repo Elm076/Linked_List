@@ -20,7 +20,11 @@ public:
 
     VuelaFlight(std::string airports_file, std::string routes_file);
 
-    Route& origDestRoutesSearch(std::string airportIataOrig, std::string airportIataDest);
+    const Dynamic_container<Airport> &getAirports() const;
+
+    const Linked_list<Route> &getRoutes() const;
+
+    Route& origDestRoutesSearch(const std::string& airportIataOrig, const std::string& airportIataDest);
 
     Dynamic_container<Route> origRoutesSearch(std::string airportIataOrig);
 
