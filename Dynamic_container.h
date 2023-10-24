@@ -44,11 +44,14 @@ class Dynamic_container
 
         int binary_search(T& data);
 
+        T* binary_search_dir(T& data);
+
 		unsigned int used_tam();
 
 		~Dynamic_container();
 
 };
+
 
 /**
  * @brief static method of the data structure which returns the following power of 2 from the given param
@@ -306,6 +309,31 @@ int Dynamic_container<T>::binary_search(T& data) {
         }
     }
     return -1;
+}
+
+/**
+ * @brief Method that search data in the data structure
+ * @param data Object that will be searched in the data structure
+ * @return memory dir where the data was found
+ */
+template<class T>
+T *Dynamic_container<T>::binary_search_dir(T &data) {
+    int left = 0;
+    int right = used_size-1;
+
+    while (left <= right) {
+        int mid = (int) left+(right-left)/2;
+        if (data == pointer_list[mid]) {
+            return (pointer_list + mid);
+        }
+        else if(data < pointer_list[mid]){
+            right = mid-1;
+        }
+        else{
+            left = mid+1;
+        }
+    }
+    return nullptr;
 }
 
 /**

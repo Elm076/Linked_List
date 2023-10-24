@@ -31,6 +31,16 @@ Airport::Airport(int _id) {
     country_iso = "";
 }
 
+Airport::Airport(std::string _iata) {
+    id = 0;
+    this->iata = _iata;
+    type = "";
+    name = "";
+    location = UTM();
+    continent = "";
+    country_iso = "";
+}
+
 /**
  * @brief Constructor that initialize all the attributes specified in param values
  * @param _id
@@ -146,3 +156,5 @@ bool Airport::operator==(const Airport &origin) {
     }
     return false;
 }
+
+

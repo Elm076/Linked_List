@@ -27,6 +27,7 @@ private:
 public:
     Airport();
     explicit Airport(int _id);
+    explicit Airport(std::string _iata);
     Airport(int _id, std::string _iata, std::string _type, std::string _name, UTM _location, std::string _continent, std::string _country_iso);
 
     const int &getId() const;

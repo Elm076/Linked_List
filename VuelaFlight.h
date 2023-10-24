@@ -16,11 +16,19 @@ private:
     Dynamic_container<Airport> airports;
     Linked_list<Route> routes;
 public:
-    VuelaFlight() { airports = Dynamic_container<Airport>();
-                    routes = Linked_list<Route>();
-    }
+    VuelaFlight() = default;
+
     VuelaFlight(std::string airports_file, std::string routes_file);
+
+    Route& origDestRoutesSearch(std::string airportIataOrig, std::string airportIataDest);
+
+    Dynamic_container<Route> origRoutesSearch(std::string airportIataOrig);
+
+    Dynamic_container<Airport> countryAirportSearch(std::string country);
+
+    void addNewRoute(std::string origAirportIata, std::string destAirportIata, std::string airline);
 };
+
 
 
 #endif //PR1_CD_VUELAFLIGHT_H
